@@ -1,4 +1,4 @@
-import requests  # _________________________ REFERENCE ATTACHED AT END__________________##########################################################
+import requests  # _________________________ REFERENCE ATTACHED AT END__________________########################################################################
 # import urllib.request
 from bs4 import BeautifulSoup
 # from parse import compile
@@ -50,6 +50,10 @@ def get_list(html_web):
 # : Param html: html output from get_webpage function
 # :return: list of internal links that have "contact" / "about". Type- List
 # """
+def get_contact_page_link(html_web):
+    source = html_web
+    return contact_about
+
 
 #five#######
 
@@ -58,6 +62,9 @@ def get_list(html_web):
 # : Param text: visible webpage text from get_webpage_text function
 # :return: list of extracted addresses from a given text
 # """
+
+def get_location():
+    return address_list
 
 #six###########
 
@@ -68,24 +75,26 @@ def get_list(html_web):
 # :return: None
 # """
 
-#seven#########
 
-# def json_to_csv_file(json_filename  : str ,csv_filename : str)-> None:
-# """
-# : Param json_filename: file name for the json file
-# : Param csv_filename: file name for the csv file
-# Company | Addresses
-# :return: None
-# """
+def save_to_json(filename: str, json_dict: dict):
+    return none
 
+    #seven#########
 
-# Python program to convert
-# JSON file to CSV
+    # def json_to_csv_file(json_filename  : str ,csv_filename : str)-> None:
+    # """
+    # : Param json_filename: file name for the json file
+    # : Param csv_filename: file name for the csv file
+    # Company | Addresses
+    # :return: None
+    # """
 
-  #for my reference ######################
+    # Python program to convert
+    # JSON file to CSV
 
-# Opening JSON file and loading the data
-# into the variable data
+  # for my reference ###################### yet to be done *
+    # Opening JSON file and loading the data
+    # into the variable data
 with open('data.json') as json_file:
     data = json.load(json_file)
 
