@@ -50,8 +50,17 @@ def get_list(html_web):
 # : Param html: html output from get_webpage function
 # :return: list of internal links that have "contact" / "about". Type- List
 # """
+
+# yet to be done
+
 def get_contact_page_link(html_web):
-    source = html_web
+
+    source_cont = BeautifulSoup(html_web, "lxml")
+    cont_occ = source_cont.findAll()
+    # empty array initiated for contacts
+    contact_lists = []
+    for x contacts in source_cont:
+
     return contact_about
 
 
@@ -62,6 +71,7 @@ def get_contact_page_link(html_web):
 # : Param text: visible webpage text from get_webpage_text function
 # :return: list of extracted addresses from a given text
 # """
+# yet to be done
 
 def get_location():
     return address_list
@@ -74,6 +84,8 @@ def get_location():
 # : Param json_dict: dictionary file - {"company1:",["address1"]....}
 # :return: None
 # """
+
+# yet to be done
 
 
 def save_to_json(filename: str, json_dict: dict):
@@ -91,6 +103,9 @@ def save_to_json(filename: str, json_dict: dict):
 
     # Python program to convert
     # JSON file to CSV
+
+# yet to be done
+
 
   # for my reference ###################### yet to be done *
     # Opening JSON file and loading the data
