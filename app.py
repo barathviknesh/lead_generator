@@ -96,7 +96,7 @@ def get_contact_page(companysL):
 def get_location(html_web):
     # textfun = html_web
 
-    extract = BeautifulSoup(html_web, "html.parser")
+    extract = BeautifulSoup(html_web, "lxml")
     location = extract.findAll('p', {'class': 'address'})
     locality = []
     for xadr in location:
