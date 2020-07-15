@@ -24,18 +24,17 @@ def get_webpage(url):
 # secound ###########################################################################################################################################################
 
 
-def get_webpage_text(html_web):
-    sou_one = BeautifulSoup(html_web, "lxml")
+def get_webpage_text(inputs):
+    sou_one = BeautifulSoup(inputs, "lxml")
     page_contents = sou_one.text
     return page_contents
 
 # third ###############################################################################################################################################################
 
 
-def get_list(html_web):
-    soup_2 = BeautifulSoup(html_web, "lxml")
+def get_list(inputstwo):
+    soup_2 = BeautifulSoup(inputstwo, "lxml")
     source = soup_2.findAll('a', {'class': '100link'})
-    # empty array initiated for companys
     company_list = []
     for x in source:
         if x.text != "View From The Top Profile":
@@ -53,19 +52,23 @@ def get_list(html_web):
 # """
 
 
-def get_contact_page(companysL):
-    company_name_url_list = get_list(html_web)
+def get_contact_page(inputsthree):
+    company_name_url_list = get_list(inputsthree)
     contact_list = []
-    for list_in in company_name_url_list:
+    for list_in in company_name_url_list[:10]:
         try:
+            # fro fetch company name
             company_Name = list_in[0]
+            # for fetch
             company_url = list_in[1]
             company_pg = get_webpage(company_url)
             souper = BeautifulSoup(company_pg, 'lxml')
             source = souper.findAll('a')
-            test_case_one = ["about"]
+# the about key word is used for search #################3
+            test_case_one = ["contact"]
             for it_s in source:
                 for x in test_case_one:
+                    # search with key word
                     if re.search(x, it_s.get('href')):
                         if it_s.get('href').startswith('http'):
                             contact_list.append(
@@ -74,7 +77,8 @@ def get_contact_page(companysL):
                             contact_list.append(
                                 [company_Name, company_url+it_s.get('href')])
         except:
-            print(company_Name)
+            print(company_Name, company_url)
+            # pass
     groups = []
     [groups.append(it_s)
      for it_s in contact_list if it_s not in groups]
@@ -88,7 +92,7 @@ def get_contact_page(companysL):
     # :return: list of extracted addresses from a given text
     # """
 
-
+# attempt one
 # def get_location(html_web):
 #     # textfun = html_web
 
