@@ -24,18 +24,17 @@ def get_webpage(url):
 # secound ###########################################################################################################################################################
 
 
-def get_webpage_text(html_web):
-    sou_one = BeautifulSoup(html_web, "lxml")
+def get_webpage_text(inputs):
+    sou_one = BeautifulSoup(inputs, "lxml")
     page_contents = sou_one.text
     return page_contents
 
 # third ###############################################################################################################################################################
 
 
-def get_list(html_web):
-    soup_2 = BeautifulSoup(html_web, "lxml")
+def get_list(inputstwo):
+    soup_2 = BeautifulSoup(inputstwo, "lxml")
     source = soup_2.findAll('a', {'class': '100link'})
-    # empty array initiated for companys
     company_list = []
     for x in source:
         if x.text != "View From The Top Profile":
@@ -53,10 +52,10 @@ def get_list(html_web):
 # """
 
 
-def get_contact_page(companysL):
-    company_name_url_list = get_list(html_web)
+def get_contact_page(inputsthree):
+    company_name_url_list = get_list(inputsthree)
     contact_list = []
-    for list_in in company_name_url_list:
+    for list_in in company_name_url_list[:10]:
         try:
             # fro fetch company name
             company_Name = list_in[0]
@@ -66,7 +65,7 @@ def get_contact_page(companysL):
             souper = BeautifulSoup(company_pg, 'lxml')
             source = souper.findAll('a')
 # the about key word is used for search #################3
-            test_case_one = ["about"]
+            test_case_one = ["contact"]
             for it_s in source:
                 for x in test_case_one:
                     # search with key word
@@ -79,6 +78,7 @@ def get_contact_page(companysL):
                                 [company_Name, company_url+it_s.get('href')])
         except:
             print(company_Name, company_url)
+            # pass
     groups = []
     [groups.append(it_s)
      for it_s in contact_list if it_s not in groups]
@@ -92,82 +92,79 @@ def get_contact_page(companysL):
     # :return: list of extracted addresses from a given text
     # """
 
+# attempt one
+# def get_location(html_web):
+#     # textfun = html_web
 
-def get_location(html_web):
-    # textfun = html_web
+#     extract = BeautifulSoup(html_web, "html.parser")
+#     location = extract.findAll('p', {'class': 'address'})
+#     locality = []
+#     for xadr in location:
+#         locality.append([xadr])
+#         print(xadr)
+#     return locality
 
-    extract = BeautifulSoup(html_web, "lxml")
-    location = extract.findAll('p', {'class': 'address'})
-    locality = []
-    for xadr in location:
-        locality.append([xadr])
-        print(xadr)
-    return locality
+
+def get_location(inputsix):
+    patterns = [r'^[0-9]{2} .\n.\n.*\n', r'^[0-9]{4} .\n.\n.*\n',
+                r'^[0-9a-zA-Z ]*[, ]\s[0-9A-Za-z\s]*[, ]\s[a-zA-z\s]*[0-9a-zA-z]{5}\n\bUnited States|USA\b$', r'^[0-9]{3}[a-z|A-Z\s]*\s[a-z|A-Z]{2}.[A-Z|a-z]*\s[0-9]*[A-z|a-z|0-9]*[,]\s[A-Z]{2}\s[0-9]{5}$', r'^[a-z|A-Z|0-9]*[,]\s[A-z]{2}\s[0-9]{5}\r\n\bUnited States\b', r'[0-9]*\s[A-z].\s[a-z|0-9]*\s[A-Z|a-z]*.\n[A-Za-z]*\s[A-z|a-z]*[, ]\s[A-Z]{2}\s[0-9]{5}\n\bUSA\b']
+    rough_li = []
+    for pattern in patterns:
+        extrated = re.findall(pattern, inputsix.strip(), flags=re.MULTILINE)
+        for item in extrated:
+            item = re.sub(r'[^\x00-\x7f]', ' ', item)
+            item = re.sub(r'\n|\t|\r', ' ', item)
+            rough_li.append(item)
+    fair_li = []
+    fair_li = [
+        adr for adr in rough_li if adr not in fair_li]
+    return fair_li
 
     #six###########
 
 
 # list to json file
-# listw = [1, 2, 3, 4, 5, 6, 7]
-
-
-# def save_to_json(listw):
-#     with open(listw, "w") as file_obj:
-#         file_obj.write(json.dumps(listw))
-    # def save_to_json(filename : str ,json_dict : dict)-> None:
-    # """
-    # : Param filename: file name for the json file
-    # : Param json_dict: dictionary file - {"company1:",["address1"]....}
-    # :return: None
-    # """
-
-    # yet to be done
-
-    #seven#########
-
-    # def json_to_csv_file(json_filename  : str ,csv_filename : str)-> None:
-    # """
-    # : Param json_filename: file name for the json file
-    # : Param csv_filename: file name for the csv file
-    # Company | Addresses
-    # :return: None
-    # """
-    # Python program to convert
-    # JSON file to CSV
-    # yet to be done
-    # for my reference ###################### yet to be done *
-    # Opening JSON file and loading the data
-    # into the variable data
-    # now we will open a file for writing
-    # create the csv writer object
-    # Counter variable used for writing
-    # headers to the CSV file
-    # url
-url = "http://www.econtentmag.com/Articles/Editorial/Feature/The-Top-100-Companies-in-the-Digital-Content-Industry-The-2016-2017-EContent-100-114156.html"
 
 
 # checking purpose #####################################################################################################################################################
+
+# url
+url = "http://www.econtentmag.com/Articles/Editorial/Feature/The-Top-100-Companies-in-the-Digital-Content-Industry-The-2016-2017-EContent-100-114156.html"
+# url = "https://www.acquia.com/about-us/contact"
+
+
 # first
-html_web = get_webpage(url)
-# print(html_web)
+first = get_webpage(url)
+# print(first)
+
 # secound
-web_pages1 = get_webpage_text(html_web)
-# print(web_pages1)
+secound = get_webpage_text(first)
+# print(secound)
+
 # third
-companysL = get_list(html_web)
-# fourth
-# four = get_contact_page(companysL)
-# print(four, print("fourrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"))
-# five
-lock = get_location(html_web)
-# print(lock)
+third = get_list(first)
+# print(third)
+
+# four
+fourth = get_contact_page(first)
+# print(fourth)
+
 # reference##########################^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^#####################################
 # http://www.compjour.org/warmups/govt-text-releases/intro-to-bs4-lxml-parsing-wh-press-briefings/
 # https://stackoverflow.com/questions/24398302/bs4-featurenotfound-couldnt-find-a-tree-builder-with-the-features-you-requeste
 # https://stackoverflow.com/questions/16322862/beautiful-soup-findall-doesnt-find-them-all
+
 if __name__ == "__main__":
-    html_web = get_webpage(url)
-    web_pages1 = get_webpage_text(html_web)
-    companysL = get_list(html_web)
-    lock = get_location(html_web)
- ### or else plz print in see output ###
+    # first
+    first = get_webpage(url)
+    # print(first)
+    # secound
+    secound = get_webpage_text(first)
+    # print(secound)
+    # third
+    third = get_list(first)
+    # print(third)
+    # four
+    fourth = get_contact_page(first)
+    # print(fourth)
+    ### or else plz print in see output ###
